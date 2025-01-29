@@ -1,7 +1,7 @@
 nodes:
-- config: signetchallenge=0014d80484cb15277bf041e49fcb0ec5a87b272b02b7
+- config: signetchallenge=001443751df97192dd255e90083c92c5f579325be0b1
   name: armada-0
-- config: signetchallenge=0014d80484cb15277bf041e49fcb0ec5a87b272b02b7
+- config: signetchallenge=001443751df97192dd255e90083c92c5f579325be0b1
   name: armada-1
-- config: signetchallenge=0014d80484cb15277bf041e49fcb0ec5a87b272b02b7
+- config: signetchallenge=001443751df97192dd255e90083c92c5f579325be0b1
   name: armada-2
