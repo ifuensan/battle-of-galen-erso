@@ -244,7 +244,7 @@ attacker.wait_until(lambda: attacker.is_connected, check_connected=False)
 ### Despliegue de Ataques
 
 Para crear un ataque, modifica los archivos existentes en `scenarios/` o crea nuevos y 
-despliégalos en la red.. La bandera `--debug` imprimirá la salida del registro 
+despliégalos en la red. La bandera `--debug` imprimirá la salida del registro 
 del escenario en la terminal y eliminará el contenedor cuando termine de ejecutarse, 
 ya sea por éxito, fallo o interrupción por `ctrl-C`
 
@@ -357,50 +357,45 @@ Ejemplos:
 
 Also look at the stubbed and example scenarios in the `scenarios` directory for inspiration.
 
-## Run your first attack
+## Corre tu primer ataque
 
-We will try to take down the 5k-inv node. To find out which node that is we can use 
-forkobserver by using `warnet dashboard` if running Scrimmage locally or using the 
-forkobserver URL provided by the administrators for your Battlefield.
+Intentaremos derribar el nodo 5k-inv. Para averiguar cuál es ese nodo, podemos usar forkobserver utilizando `warnet dashboard` si estamos ejecutando Scrimmage localmente o usando la URL de forkobserver proporcionada por los administradores para tu Battlefield.
 
-On fork-observer, the "description" field will show what version of bitcoin is running. 
-Find the 5k-inv node and update `scenarios/my_first_attack_5kinv.py` with the name of this node. 
-Look for a variable called `victim`. On  Battlefield you will have been a color to attack 
-and locally in Scrimmage there will only be red. The link "disclosing" this particular attack can be found:
+En fork-observer, el campo "description" mostrará qué versión de bitcoin se está ejecutando. Encuentra el nodo 5k-inv y actualiza `scenarios/my_first_attack_5kinv.py` con el nombre de este nodo. Busca una variable llamada `victim`. En Battlefield te habrán asignado un color para atacar y localmente en Scrimmage solo habrá rojo. El enlace que revela este ataque en particular se puede encontrar:
 [5K Inv Disclosure](https://bitcorncore.org/en/2024/10/23/fake-disclosure-5kinv/).
 
-From the root of this repo, run this scenario with:
+Desde la raíz de este repositorio, ejecuta este escenario con:
 
 `warnet run scencarios/my_first_attack_5kinv.py --debug`
 
-After the 5000 INVs have been sent, you should observe that this node becomes unresponsive on fork-observer.
+Después de enviar los 5000 INVs, deberías observar que este nodo se vuelve no responsivo en fork-observer.
 
-## On The Battlefield
+## En El Campo de Batalla
 
-When you are ready to launch your attack for real, start by "switching context"
-from your local cluster to the remote cluster. You will have a config file
-provided by the administrator:
+Cuando estés listo para lanzar tu ataque de verdad, comienza por "cambiar el contexto"
+de tu clúster local al clúster remoto. Tendrás un archivo de configuración
+proporcionado por el administrador:
 
 ```
 warnet auth /path/to/battlefield-100-large-kubeconfig.yaml
 ```
 
-### Switching context back to local / back to battlefield
+### Cambiar el contexto de nuevo a local / de vuelta al campo de batalla
 
-To see your available contexts run:
+Para ver los contextos disponibles, ejecuta:
 
 ```shell
 kubectl config get-contexts
 ```
 
-For local the context you are most likely looking for would be `docker-desktop` or `minikube`. For the Battlefield it will be a longer name.
+Para local, el contexto que probablemente estás buscando sería `docker-desktop` o `minikube`. Para el Campo de Batalla, será un nombre más largo.
 
-Switch to that context using:
+Cambia a ese contexto usando:
 
 ```shell
 kubectl config use-context <context name>
 ```
 
-Warnet commands will run against whatever is the context currently set in your kubeconfig (as shown using kubectl)
+Los comandos de Warnet se ejecutarán contra el contexto que esté actualmente configurado en tu kubeconfig (como se muestra usando kubectl)
 
-Good luck!
+¡Buena suerte!
