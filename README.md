@@ -1,76 +1,59 @@
-# Warnet: The Battle of Galen Erso
+# Warnet: La Batalla de Galen Erso
 
-![vulnerability](./images/vulnerability.gif)
+![vulnerabilidad](./images/vulnerability.gif)
 
-Your mission is to attack Bitcoin Core nodes in a private network
-running in a Kubernetes cluster. The private network consists of Bitcoin Core
-nodes that are vulnerable to fully-disclosed historical attacks or novel
-intentional flaws. A **FAKE** website with blog posts about all types of
-vulnerabilities available for exploit on Warnet can be seen here:
+Tu misión es atacar nodos de Bitcoin Core en una red privada que se ejecuta en un clúster de Kubernetes. La red privada consiste en nodos de Bitcoin Core que son vulnerables a ataques históricos completamente divulgados o fallos intencionales novedosos. Un sitio web **FALSO** con publicaciones de blog sobre todo tipo de vulnerabilidades disponibles para explotar en Warnet se puede ver aquí:
 
 https://bitcorncore.org/en/blog/
 
-⚠️ This website is for entertainment purposes only ⚠️
+⚠️ Este sitio web es solo para fines de entretenimiento ⚠️
 
-## Terminology
+## Terminología
 
-- Tanks: Bitcoin Core nodes running in a Warnet network
-- Battlefield: A remote cluster with 100 vulnerable tanks
-    - custom signet chain with one miner run by admin
-- Scrimmage: A local cluster with only a few vulnerable tanks
-    - custom signet chain with OP_TRUE challenge so anyone can generate blocks (like regtest)
-- Armada: A small set of tanks running the latest Bitcoin Core release under the attacker's control
-- Scenario: A program that deploys to the battlefield to attack the tanks
+- Tanques: Nodos de Bitcoin Core ejecutándose en una red de Warnet
+- Campo de batalla: Un clúster remoto con 100 tanques vulnerables
+  - cadena de signet personalizada con un minero administrado por el administrador
+- Escaramuza: Un clúster local con solo unos pocos tanques vulnerables
+  - cadena de signet personalizada con el desafío OP_TRUE para que cualquiera pueda generar bloques (como regtest)
+- Armada: Un pequeño conjunto de tanques que ejecutan la última versión de Bitcoin Core bajo el control del atacante
+- Escenario: Un programa que se despliega en el campo de batalla para atacar los tanques
 
-## Objectives
+## Objetivos
 
-1. Clone this repo!
-2. Install and set up Warnet
-3. Create attacks
-4. Test attacks locally in scrimmage
-5. Attack Bitcoin Core nodes on the battlefield
+1. ¡Clona este repositorio!
+2. Instala y configura Warnet
+3. Crea ataques
+4. Prueba ataques localmente en escaramuza
+5. Ataca nodos de Bitcoin Core en el campo de batalla
 
-## Intelligence Brief -- What is Warnet?
+## Informe de Inteligencia -- ¿Qué es Warnet?
 
-Warnet is a system written in Python to deploy, manage, and interact with
-Bitcoin p2p networks inside a Kubernetes cluster. The official battlefield
-will be a remote cluster with over 100 Bitcoin nodes (referred to as "Tanks")
-running on a custom signet chain (where only the network administrator can
-generate blocks). Many of these nodes will be old versions of
-Bitcoin Core with
-[publicly disclosed vulnerabilities](https://bitcoincore.org/en/blog/). There will
-also be additional nodes that have been compiled with intentional flaws and
-[FAKE disclosures](https://bitcorncore.org/en/blog/)
+Warnet es un sistema escrito en Python para desplegar, administrar e interactuar con redes p2p de Bitcoin dentro de un clúster de Kubernetes. El campo de batalla oficial será un clúster remoto con más de 100 nodos de Bitcoin (referidos como "Tanques") ejecutándose en una cadena de signet personalizada (donde solo el administrador de la red puede generar bloques). Muchos de estos nodos serán versiones antiguas de Bitcoin Core con [vulnerabilidades públicamente divulgadas](https://bitcoincore.org/en/blog/). También habrá nodos adicionales que se han compilado con fallos intencionales y [divulgaciones FALSAS](https://bitcorncore.org/en/blog/)
 
-To help facilitate Tank-attacking strategies on the battlefield, a smaller
-12-node network called scrimmage can be run locally by attackers while
-developing scenarios. Scrimmage requires running kubernetes locally (either
-Docker Desktop or minikube) which is not required to run attacks on the remote
-battlefield. Scrimmage also runs on a signet chain with a challenge of `OP_TRUE`
-so any node can generate blocks.
+Para ayudar a facilitar las estrategias de ataque de tanques en el campo de batalla, un red más pequeña de 12 nodos llamada escaramuza se puede ejecutar localmente por los atacantes mientras desarrollan escenarios. Escaramuza requiere ejecutar kubernetes localmente (ya sea Docker Desktop o minikube), lo cual no es necesario para ejecutar ataques en el campo de batalla remoto. Escaramuza también se ejecuta en una cadena de signet con un desafío de `OP_TRUE` para que cualquier nodo pueda generar bloques.
 
-### Install Warnet
+### Instalar Warnet
 
-Documentation for Warnet is available in the repository.
+La documentación para Warnet está disponible en el repositorio.
 
-Install into a virtual python environment:
+Instala en un entorno virtual de Python:
 
 https://github.com/bitcoin-dev-project/warnet/blob/main/docs/install.md#install-warnet
 
-### Setup Warnet
+### Configurar Warnet
 
-Warnet itself will guide you through the setup process.
+Warnet te guiará a través del proceso de configuración.
 
 > [!TIP]
-> **There are several options to carefully choose when setting up Warnet!**
-> - You only need to install minikube or docker desktop's kubernetes if you plan to run the scrimmage network locally for experimentation and development.
-> - Accessing the remote 100-node signet battlefield does not require a local kubenetes distribution, but will still require installation of `kubectl` and `helm`.
-> - The `warnet setup` wizard will install these dependencies for you.
-> - If running Docker Desktop, be generous with the amount of resources you assing to it.
+> **Hay varias opciones para elegir cuidadosamente al configurar Warnet!**
+> - Solo necesitas instalar minikube o kubernetes de Docker Desktop si planeas ejecutar la red de escaramuza localmente para experimentación y desarrollo.
+> - Acceder al campo de batalla de 100 nodos signet remoto no requiere una distribución local de kubernetes, pero aún requerirá la instalación de `kubectl` y `helm`.
+> - El asistente `warnet setup` instalará estas dependencias por ti.
+> - Si ejecutas Docker Desktop, sé generoso con la cantidad de recursos que le asignas.
 
-#### One Warnet is installed, execute `warnet setup`
+#### Una vez instalado Warnet, ejecuta `warnet setup`
 
-Example:
+Ejemplo:
 
 ```
 (.venv) $ warnet setup
@@ -87,84 +70,74 @@ Example:
    No Backend (Interacting with remote cluster, see `warnet auth --help`)
 ```
 
-### Once Warnet is set up in a virtual environemnt, clone this repo!
+### Una vez configurado Warnet en un entorno virtual, clona este repo!
 
 ```
 (.venv) $ git clone https://github.com/bitcoin-dev-project/battle-of-galen-erso
 (.venv) $ cd battle-of-galen-erso/
 ```
 
-### Additional tools
+### Herramientas adicionales
 
 #### K9s
 
-Whether you run Kubernetes locally or use the remote cluster, we recommend the
-terminal user interface [k9s](https://github.com/derailed/k9s) to monitor
-cluster status.
+Ya sea que ejecutes Kubernetes localmente o uses el clúster remoto, recomendamos la interfaz de usuario de terminal [k9s](https://github.com/derailed/k9s) para monitorear el estado del clúster.
 
-![k9s screenshot](./images/k9s-screenshot.png)
+![captura de pantalla de k9s](./images/k9s-screenshot.png)
 
 #### ktop
 
-If you want to observe resource usage on a cluster with metrics enabled, you
-may want to consider using [ktop](https://github.com/vladimirvivien/ktop)
+Si deseas observar el uso de recursos en un clúster con métricas habilitadas, puedes considerar usar [ktop](https://github.com/vladimirvivien/ktop)
 
-![ktop screenshot](./images/ktop-screenshot.png)
+![captura de pantalla de ktop](./images/ktop-screenshot.png)
 
-## Network Operations
+## Operaciones de Red
 
-### Start and Stop the Network
+### Iniciar y Detener la Red
 
 > [!TIP]
-> **This section is only relevant in scrimmage (you are running kubernetes locally)**
+> **Esta sección solo es relevante en escaramuza (estás ejecutando kubernetes localmente)**
 
-You can see the topology of the network which will be deployed, and make
-modifications to it by looking at: `networks/scrimmage/network.yaml`
-This will also allow you to see which tanks are running which version of
-Bitcoin Core.
+Puedes ver la topología de la red que se desplegará y hacer modificaciones viéndolo en: `networks/scrimmage/network.yaml`
+Esto también te permitirá ver qué tanques están ejecutando qué versión de Bitcoin Core.
 
-Deploy the 12-node scrimmage network included in this repository to a local Kubernetes
-cluster with the command:
+Despliega la red de escaramuza de 12 nodos incluida en este repositorio en un clúster local de Kubernetes con el comando:
 
 ```
 warnet deploy ./networks/scrimmage
 ```
 
-The local network can be shut down with the command:
+La red local se puede apagar con el comando:
 
 ```
 warnet down
 ```
 
-### Network Reconnaissance
+### Reconocimiento de Red
 
 > [!TIP]
-> **This section is only relevant in scrimmage (you are running kubernetes locally)**
+> **Esta sección solo es relevante en escaramuza (estás ejecutando kubernetes localmente)**
 
-You can open the web based visualizer with Grafana dashboards and Fork Observer
-at by executing the command:
+Puedes abrir el visualizador basado en web con paneles de Grafana y Fork Observer ejecutando el comando:
 
 ```
 warnet dashboard
 ```
 
-Warnet will get the `localhost` port of the dashboard web server and
-open it in your system's default browser.
+Warnet obtendrá el puerto `localhost` del servidor web del panel y
+lo abrirá en el navegador predeterminado de tu sistema.
 
-![fork observer screenshot](./images/fo.png)
+![captura de pantalla de fork observer](./images/fo.png)
 
-### Network Communications
+### Comunicaciones de Red
 
 > [!TIP]
-> **On the battlefield, these commands will only be able to retrieve data from**
-> **tanks in your armada. In local scrimmage mode, you will have access to all tanks.**
+> **En el campo de batalla, estos comandos solo podrán recuperar datos de tanques en tu armada. En el modo de escaramuza local, tendrás acceso a todos los tanques.**
 
-See the [Warnet documentation](https://github.com/bitcoin-dev-project/warnet/blob/main/docs/warnet.md)
-for all available CLI commands to retrieve logs, p2p messages, and other status
-information.
+Consulta la [documentación de Warnet](https://github.com/bitcoin-dev-project/warnet/blob/main/docs/warnet.md) para todos los comandos CLI disponibles para recuperar registros, mensajes p2p y otra información de estado.
 
-#### Examples:
-#### Status
+#### Ejemplos:
+#### Estado
 
 ```
 (.venv) --> warnet status
@@ -204,57 +177,57 @@ Min tx relay fee rate (BTC/kvB): 0.00001000
 Warnings: (none)
 ```
 
-## Ordnance
+## Armamento
 
-### Attack Development
+### Desarrollo de Ataques
 
-The primary method of interacting with the network and mounting an attack is by
-deploying a scenario.
+El método principal de interactuar con la red y montar un ataque es desplegando 
+un escenario.
 
-A scenario is a Python script written with the same structure and library as
-a Bitcoin Core functional test, utilizing a copy of the `test_framework`, which is
-[included](/scenarios/test_framework) in this repo and may be modified if necessary.
-The primary difference is that the familiar `self.nodes[]` list contains
-references to containerized Bitcoin Core nodes running inside the
-cluster rather than locally accessible bitcoind processes.
+Un escenario es un script de Python escrito con la misma estructura y biblioteca que
+una prueba funcional de Bitcoin Core, utilizando una copia del `test_framework`, 
+que está [incluida](/scenarios/test_framework) en este repositorio y puede ser 
+modificada si es necesario.
+La principal diferencia es que la lista familiar `self.nodes[]` contiene referencias 
+a nodos de Bitcoin Core en contenedores ejecutándose dentro del clúster en lugar de 
+procesos bitcoind localmente accesibles.
 
-An additional list `self.tanks[str]` is available to address Bitcoin nodes
-by their Kubernetes pod name (as opposed to their numerical index).
+También está disponible una lista adicional `self.tanks[str]` para abordar nodos de 
+Bitcoin por su nombre de pod de Kubernetes (en lugar de su índice numérico).
 
-Objects in `self.nodes[]` and `self.tanks[]` are RPC proxy objects which interpret
-all calls as RPC commands to be forwarded to the bitcoin core node.
+Los objetos en `self.nodes[]` y `self.tanks[]` son objetos proxy de RPC que interpretan 
+todas las llamadas como comandos RPC que se reenvían al nodo de bitcoin core.
 
-Example:
+
+Ejemplo:
 ```python
 self.tanks["armada-0"].getpeerinfo()
 ```
 
-If you are unfamiliar with the Bitcoin Core RPC interface you can get help directly
-from a Bitcoin Core node:
+Si no estás familiarizado con la interfaz RPC de Bitcoin Core, puedes obtener ayuda 
+directamente de un nodo de Bitcoin Core:
 
 ```
 (.venv) $ warnet bitcoin rpc armada-0 help
 ```
 
-There are also several resources online to learn about the available RPC commands:
+También hay varios recursos en línea para aprender sobre los comandos RPC disponibles:
 
 https://chainquery.com/bitcoin-cli
 
 https://developer.bitcoin.org/reference/rpc/
 
 
-**The only tanks you as an attacker have RPC access to are in your own armada**
+**Los únicos tanques a los que como atacante tienes acceso RPC están en tu propia armada**
 
-A handful of example scenarios are included in the [`scenarios/`](/scenarios/) directory.
-In particular, [`scenarios/reconnaissance.py`](/scenarios/reconnaissance.py) is written with verbose comments
-to demonstrate how to execute RPC commands on available nodes, as well as how
-to utilize the framework's `P2PInterface` class to send arbitrary messages
-to targeted nodes.
+Se incluyen varios escenarios de ejemplo en el directorio [`scenarios/`](/scenarios/).
+En particular, [`scenarios/reconnaissance.py`](/scenarios/reconnaissance.py) está escrito 
+con comentarios detallados para demostrar cómo ejecutar comandos RPC en nodos disponibles, 
+así como cómo utilizar la clase `P2PInterface` del framework para enviar mensajes arbitrarios a nodos objetivo.
 
-Tanks in the kubernetes network have URIs that include a namespace. URIs for all
-tanks can be seen in the "description" field in the fork-observer web UI.
+Los tanques en la red de kubernetes tienen URI que incluyen un espacio de nombres. Los URI de todos los tanques se pueden ver en el campo "descripción" en la interfaz web de fork-observer.
 
-Example:
+Ejemplo:
 ```python
 attacker = P2PInterface()
 attacker.peer_connect(
@@ -268,14 +241,14 @@ attacker.wait_until(lambda: attacker.is_connected, check_connected=False)
 # Create a malicious p2p packet and send...
 ```
 
-### Attack Deployment
+### Despliegue de Ataques
 
-To create an attack modify the existing files in `scenarios/` or create new
-ones and deploy them to the network. The `--debug` flag will print the log output
-of the scenario back to the terminal, and delete the container when it finishes
-running by either success, failure, or interruption by `ctrl-C`
+Para crear un ataque, modifica los archivos existentes en `scenarios/` o crea nuevos y 
+despliégalos en la red.. La bandera `--debug` imprimirá la salida del registro 
+del escenario en la terminal y eliminará el contenedor cuando termine de ejecutarse, 
+ya sea por éxito, fallo o interrupción por `ctrl-C`
 
-Example:
+Ejemplo:
 
 ```
 (.venv) --> warnet run scenarios/reconnaissance.py --debug
@@ -323,9 +296,9 @@ pod "commander-reconnaissance-1727792531" deleted
 
 ```
 
-You can also query the scenario with `-- --help` to learn about its arguments.
+También puedes consultar el escenario con `-- --help` para conocer sus argumentos.
 
-Example:
+Ejemplo:
 
 ```
 (.venv) --> warnet run scenarios/miner_std.py -- --help
@@ -341,42 +314,43 @@ options:
   --tank TANK          Select one tank by name as the only miner
 ```
 
-## Rules of Engagement
+## Reglas de Compromiso
 
-An attack is considered successful when a target node is no longer in sync with
-the most-work chain. This could be the result of:
-- An eclipse attack
-- An out-of-memory error killing the node process (the nodes are programmed not to restart)
-- A CPU denial-of-service preventing the node from verifying new blocks
+Un ataque se considera exitoso cuando un nodo objetivo ya no está sincronizado con la cadena 
+de mayor trabajo. Esto podría ser el resultado de:
+- Un ataque de eclipse
+- Un error de memoria que mata el proceso del nodo (los nodos están programados para no reiniciar)
+- Una denegación de servicio de CPU que impide que el nodo verifique nuevos bloques
+Los atacantes no podrán generar sus propios bloques en la cadena de signet del campo de
+batalla, pero tienen permiso ilimitado en su red de signet de escaramuza local.
 
-Attackers will not be able to generate their own blocks on the battlefield
-signet chain, but have unlimited permission on their local scrimmage signet network.
+## Fondos
 
-## Funds
-
-On the battlefield, only the administrator can generate blocks. They will periodically
-run a script that funds everyone's armada nodes with whatever spendable balance
-the miner has. That script will ensure every armada node has a wallet called "miner".
+En el campo de batalla, solo el administrador puede generar bloques. Periódicamente ejecutará 
+un script que financia los nodos armada de todos con el saldo gastable que tenga el minero. 
+Ese script asegurará que cada nodo armada tenga una billetera llamada "miner".
 
 > [!TIP]
-> Your armada nodes will have a wallet called "miner" with lots of test BTC!
+> ¡Tus nodos armada tendrán una billetera llamada "miner" con muchos BTC de prueba!
 
 
-## HINTS
+## PISTAS
 
-💡Scrimmage is a signet chain, meaning even though the difficulty target is the
-minimum, proof of work still matters. For that reason generating blocks may require
-more than one attempt.
+💡"Scrimmage" es una cadena de signet, lo que significa que aunque el objetivo de 
+dificultad sea el mínimo, el proof of work aún importa. Por esa razón, generar 
+bloques puede requerir más de un intento.
 
-Try: `warnet run scenarios/miner_std.py --tank=miner --interval=1 --debug`
+Prueba: `warnet run scenarios/miner_std.py --tank=miner --interval=1 --debug`
 
-💡 Remember block subsidies will only be spendable after 100 blocks and to mine some blocks 
-to get node out of IBD. Nodes on Scrimmage will not accept transactions until they are out of IBD.
+💡 Recuerda que los subsidios de bloque solo serán gastables después de 100 bloques y 
+mina algunos bloques para sacar al nodo de IBD. Los nodos en Escaramuza no aceptarán 
+transacciones hasta que estén fuera de IBD.
 
-💡 You may be unfamiliar with the Bitcoin Core functional test framework. To get
-some clues about its usage in p2p scenarios, review some of the existing tests!
+💡 Puede que no estés familiarizado con el marco de pruebas funcionales de Bitcoin Core. 
+Para obtener algunas pistas sobre su uso en escenarios p2p, ¡revisa algunas de las pruebas 
+existentes!
 
-Examples:
+Ejemplos:
 - [send `addr` messages](https://github.com/bitcoin/bitcoin/blob/28.x/test/functional/p2p_addrfetch.py)
 - [create orphan transactions](https://github.com/bitcoin/bitcoin/blob/28.x/test/functional/p2p_orphan_handling.py)
 - [send invalid blocks](https://github.com/bitcoin/bitcoin/blob/28.x/test/functional/p2p_invalid_block.py)
