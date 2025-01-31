@@ -30,7 +30,7 @@ https://bitcorncore.org/en/blog/
 
 Warnet es un sistema escrito en Python para desplegar, administrar e interactuar con redes p2p de Bitcoin dentro de un clúster de Kubernetes. El campo de batalla oficial será un clúster remoto con más de 100 nodos de Bitcoin (referidos como "Tanques") ejecutándose en una cadena de signet personalizada (donde solo el administrador de la red puede generar bloques). Muchos de estos nodos serán versiones antiguas de Bitcoin Core con [vulnerabilidades públicamente divulgadas](https://bitcoincore.org/en/blog/). También habrá nodos adicionales que se han compilado con fallos intencionales y [divulgaciones FALSAS](https://bitcorncore.org/en/blog/)
 
-Para ayudar a facilitar las estrategias de ataque de tanques en el campo de batalla, un red más pequeña de 12 nodos llamada `Scrimmage` se puede ejecutar localmente por los atacantes mientras desarrollan escenarios. `Scrimmage` requiere ejecutar kubernetes localmente (ya sea Docker Desktop o minikube), lo cual no es necesario para ejecutar ataques en el campo de batalla remoto. Escaramuza también se ejecuta en una cadena de signet con un desafío de `OP_TRUE` para que cualquier nodo pueda generar bloques.
+Para ayudar a facilitar las estrategias de ataque de tanques en el campo de batalla, un red más pequeña de 12 nodos llamada `Scrimmage` se puede ejecutar localmente por los atacantes mientras desarrollan escenarios. `Scrimmage` requiere ejecutar kubernetes localmente (ya sea Docker Desktop o minikube), lo cual no es necesario para ejecutar ataques en el campo de batalla remoto. `Scrimmage` también se ejecuta en una cadena de signet con un desafío de `OP_TRUE` para que cualquier nodo pueda generar bloques.
 
 ### Instalar Warnet
 
@@ -46,7 +46,7 @@ Warnet te guiará a través del proceso de configuración.
 
 > [!TIP]
 > **Hay varias opciones para elegir cuidadosamente al configurar Warnet!**
-> - Solo necesitas instalar minikube o kubernetes de Docker Desktop si planeas ejecutar la red de escaramuza localmente para experimentación y desarrollo.
+> - Solo necesitas instalar minikube o kubernetes de Docker Desktop si planeas ejecutar la red de `Scrimmage` localmente para experimentación y desarrollo.
 > - Acceder al campo de batalla (`Battlefield`) de 100 nodos signet remoto no requiere una distribución local de kubernetes, pero aún requerirá la instalación de `kubectl` y `helm`.
 > - El asistente `warnet setup` instalará estas dependencias por ti.
 > - Si ejecutas Docker Desktop, sé generoso con la cantidad de recursos que le asignas.
@@ -322,7 +322,7 @@ de mayor trabajo. Esto podría ser el resultado de:
 - Un error de memoria que mata el proceso del nodo (los nodos están programados para no reiniciar)
 - Una denegación de servicio de CPU que impide que el nodo verifique nuevos bloques
 Los atacantes no podrán generar sus propios bloques en la cadena de signet del campo de
-batalla, pero tienen permiso ilimitado en su red de signet de escaramuza local.
+batalla, pero tienen permiso ilimitado en su red de signet de `Scrimmage` local.
 
 ## Fondos
 
