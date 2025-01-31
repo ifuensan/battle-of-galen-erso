@@ -10,10 +10,10 @@ https://bitcorncore.org/en/blog/
 
 ## Terminología
 
-- Tanques: Nodos de Bitcoin Core ejecutándose en una red de Warnet
-- Campo de batalla: Un clúster remoto con 100 tanques vulnerables
+- Tanques (`Tanks`): Nodos de Bitcoin Core ejecutándose en una red de Warnet
+- Campo de batalla (`Battlefield`): Un clúster remoto con 100 tanques vulnerables
   - cadena de signet personalizada con un minero administrado por el administrador
-- Escaramuza: Un clúster local con solo unos pocos tanques vulnerables
+- Escaramuza (`Scrimmage`): Un clúster local con solo unos pocos tanques vulnerables
   - cadena de signet personalizada con el desafío OP_TRUE para que cualquiera pueda generar bloques (como regtest)
 - Armada: Un pequeño conjunto de tanques que ejecutan la última versión de Bitcoin Core bajo el control del atacante
 - Escenario: Un programa que se despliega en el campo de batalla para atacar los tanques
@@ -23,14 +23,14 @@ https://bitcorncore.org/en/blog/
 1. ¡Clona este repositorio!
 2. Instala y configura Warnet
 3. Crea ataques
-4. Prueba ataques localmente en escaramuza
+4. Prueba ataques localmente en `Scrimmage`
 5. Ataca nodos de Bitcoin Core en el campo de batalla
 
 ## Informe de Inteligencia -- ¿Qué es Warnet?
 
 Warnet es un sistema escrito en Python para desplegar, administrar e interactuar con redes p2p de Bitcoin dentro de un clúster de Kubernetes. El campo de batalla oficial será un clúster remoto con más de 100 nodos de Bitcoin (referidos como "Tanques") ejecutándose en una cadena de signet personalizada (donde solo el administrador de la red puede generar bloques). Muchos de estos nodos serán versiones antiguas de Bitcoin Core con [vulnerabilidades públicamente divulgadas](https://bitcoincore.org/en/blog/). También habrá nodos adicionales que se han compilado con fallos intencionales y [divulgaciones FALSAS](https://bitcorncore.org/en/blog/)
 
-Para ayudar a facilitar las estrategias de ataque de tanques en el campo de batalla, un red más pequeña de 12 nodos llamada escaramuza se puede ejecutar localmente por los atacantes mientras desarrollan escenarios. Escaramuza requiere ejecutar kubernetes localmente (ya sea Docker Desktop o minikube), lo cual no es necesario para ejecutar ataques en el campo de batalla remoto. Escaramuza también se ejecuta en una cadena de signet con un desafío de `OP_TRUE` para que cualquier nodo pueda generar bloques.
+Para ayudar a facilitar las estrategias de ataque de tanques en el campo de batalla, un red más pequeña de 12 nodos llamada `Scrimmage` se puede ejecutar localmente por los atacantes mientras desarrollan escenarios. `Scrimmage` requiere ejecutar kubernetes localmente (ya sea Docker Desktop o minikube), lo cual no es necesario para ejecutar ataques en el campo de batalla remoto. Escaramuza también se ejecuta en una cadena de signet con un desafío de `OP_TRUE` para que cualquier nodo pueda generar bloques.
 
 ### Instalar Warnet
 
@@ -47,7 +47,7 @@ Warnet te guiará a través del proceso de configuración.
 > [!TIP]
 > **Hay varias opciones para elegir cuidadosamente al configurar Warnet!**
 > - Solo necesitas instalar minikube o kubernetes de Docker Desktop si planeas ejecutar la red de escaramuza localmente para experimentación y desarrollo.
-> - Acceder al campo de batalla de 100 nodos signet remoto no requiere una distribución local de kubernetes, pero aún requerirá la instalación de `kubectl` y `helm`.
+> - Acceder al campo de batalla (`Battlefield`) de 100 nodos signet remoto no requiere una distribución local de kubernetes, pero aún requerirá la instalación de `kubectl` y `helm`.
 > - El asistente `warnet setup` instalará estas dependencias por ti.
 > - Si ejecutas Docker Desktop, sé generoso con la cantidad de recursos que le asignas.
 
@@ -70,7 +70,7 @@ Ejemplo:
    No Backend (Interacting with remote cluster, see `warnet auth --help`)
 ```
 
-### Una vez configurado Warnet en un entorno virtual, clona este repo!
+### Una vez configurado Warnet en un entorno virtual, ¡clona este repo!
 
 ```
 (.venv) $ git clone https://github.com/bitcoin-dev-project/battle-of-galen-erso
@@ -96,12 +96,12 @@ Si deseas observar el uso de recursos en un clúster con métricas habilitadas, 
 ### Iniciar y Detener la Red
 
 > [!TIP]
-> **Esta sección solo es relevante en escaramuza (estás ejecutando kubernetes localmente)**
+> **Esta sección solo es relevante en `Scrimmage` (estás ejecutando kubernetes localmente)**
 
 Puedes ver la topología de la red que se desplegará y hacer modificaciones viéndolo en: `networks/scrimmage/network.yaml`
 Esto también te permitirá ver qué tanques están ejecutando qué versión de Bitcoin Core.
 
-Despliega la red de escaramuza de 12 nodos incluida en este repositorio en un clúster local de Kubernetes con el comando:
+Despliega la red de `Scrimmage` de 12 nodos incluida en este repositorio en un clúster local de Kubernetes con el comando:
 
 ```
 warnet deploy ./networks/scrimmage
@@ -116,7 +116,7 @@ warnet down
 ### Reconocimiento de Red
 
 > [!TIP]
-> **Esta sección solo es relevante en escaramuza (estás ejecutando kubernetes localmente)**
+> **Esta sección solo es relevante en `Scrimmage` (estás ejecutando kubernetes localmente)**
 
 Puedes abrir el visualizador basado en web con paneles de Grafana y Fork Observer ejecutando el comando:
 
@@ -132,7 +132,7 @@ lo abrirá en el navegador predeterminado de tu sistema.
 ### Comunicaciones de Red
 
 > [!TIP]
-> **En el campo de batalla, estos comandos solo podrán recuperar datos de tanques en tu armada. En el modo de escaramuza local, tendrás acceso a todos los tanques.**
+> **En `Battlefield`, estos comandos solo podrán recuperar datos de tanques en tu armada. En el modo de `Scrimmage` local, tendrás acceso a todos los tanques.**
 
 Consulta la [documentación de Warnet](https://github.com/bitcoin-dev-project/warnet/blob/main/docs/warnet.md) para todos los comandos CLI disponibles para recuperar registros, mensajes p2p y otra información de estado.
 
@@ -336,14 +336,14 @@ Ese script asegurará que cada nodo armada tenga una billetera llamada "miner".
 
 ## PISTAS
 
-💡"Scrimmage" es una cadena de signet, lo que significa que aunque el objetivo de 
+💡`Scrimmage` es una cadena de signet, lo que significa que aunque el objetivo de 
 dificultad sea el mínimo, el proof of work aún importa. Por esa razón, generar 
 bloques puede requerir más de un intento.
 
 Prueba: `warnet run scenarios/miner_std.py --tank=miner --interval=1 --debug`
 
 💡 Recuerda que los subsidios de bloque solo serán gastables después de 100 bloques y 
-mina algunos bloques para sacar al nodo de IBD. Los nodos en Escaramuza no aceptarán 
+mina algunos bloques para sacar al nodo de IBD. Los nodos en `Scrimmage` no aceptarán 
 transacciones hasta que estén fuera de IBD.
 
 💡 Puede que no estés familiarizado con el marco de pruebas funcionales de Bitcoin Core. 
