@@ -366,7 +366,7 @@ En fork-observer, el campo "description" mostrará qué versión de bitcoin se e
 
 Desde la raíz de este repositorio, ejecuta este escenario con:
 
-`warnet run scencarios/my_first_attack_5kinv.py --debug`
+`warnet run scenarios/my_first_attack_5kinv.py --debug`
 
 Después de enviar los 5000 INVs, deberías observar que este nodo se vuelve no responsivo en fork-observer.
 
