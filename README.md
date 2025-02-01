@@ -351,11 +351,11 @@ Para obtener algunas pistas sobre su uso en escenarios p2p, ¡revisa algunas de 
 existentes!
 
 Ejemplos:
-- [send `addr` messages](https://github.com/bitcoin/bitcoin/blob/28.x/test/functional/p2p_addrfetch.py)
-- [create orphan transactions](https://github.com/bitcoin/bitcoin/blob/28.x/test/functional/p2p_orphan_handling.py)
-- [send invalid blocks](https://github.com/bitcoin/bitcoin/blob/28.x/test/functional/p2p_invalid_block.py)
+- [envía mensajes `addr`](https://github.com/bitcoin/bitcoin/blob/28.x/test/functional/p2p_addrfetch.py)
+- [crea transacciones huérfanas](https://github.com/bitcoin/bitcoin/blob/28.x/test/functional/p2p_orphan_handling.py)
+- [envía bloques no válidos](https://github.com/bitcoin/bitcoin/blob/28.x/test/functional/p2p_invalid_block.py)
 
-Also look at the stubbed and example scenarios in the `scenarios` directory for inspiration.
+También mira los escenarios de ejemplo y de ejemplo en el directorio de `scenarios` para obtener inspiración.
 
 ## Corre tu primer ataque
 
